@@ -1,5 +1,5 @@
 {
-  "name": "personal-next-boilerplate",
+  "name": "getmeal",
   "version": "0.1.0",
   "private": true,
   "author": "Abdul malik <up2dul@gmail.com>",
@@ -13,6 +13,7 @@
     "format": "prettier --w './**/*.{js,cjs,mjs,ts,tsx}'"
   },
   "dependencies": {
+    "@next/font": "^13.2.1",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"
