@@ -6,7 +6,7 @@ const Header = () => (
   <header
     className={cn(
       'fixed top-0 z-10',
-      'w-full border-b-2 border-mine-800 px-5 py-4',
+      'w-full border-b-2 border-cream-400 px-5 py-4',
       'text-center backdrop-blur-sm',
     )}
   >
