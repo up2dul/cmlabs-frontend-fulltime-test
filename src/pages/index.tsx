@@ -3,20 +3,18 @@ import Balancer from 'react-wrap-balancer';
 
 import api from '@/lib/api';
 import { cn } from '@/lib/utils';
-import { type Ingredients } from '@/lib/types';
+import { type IngredientProps } from '@/lib/types';
 import Layout from '@/components/organisms/Layout';
 import SearchBar from '@/components/molecules/SearchBar';
 import Card from '@/components/molecules/Card';
 
-type AllIngredients = Array<{
-  idIngredient: string;
-  strIngredient: string;
-  slug: string;
-}>;
+type HomeProps = {
+  allIngredients: IngredientProps[];
+};
 
-const Home = ({ allIngredients }: { allIngredients: AllIngredients }) => {
+const Home = ({ allIngredients }: HomeProps) => {
   const [ingredients, setIngredients] =
-    useState<AllIngredients>(allIngredients);
+    useState<IngredientProps[]>(allIngredients);
   const ingLength = ingredients.length;
 
   const handleSearch = (query: string) => {
@@ -29,7 +27,7 @@ const Home = ({ allIngredients }: { allIngredients: AllIngredients }) => {
 
   return (
     <Layout>
-      <div
+      <section
         className={cn(
           'border-b-2 border-dashed border-mine-500 sm:border-x-2',
           'px-3 py-16 sm:rounded-b-3xl',
@@ -48,7 +46,7 @@ const Home = ({ allIngredients }: { allIngredients: AllIngredients }) => {
             <span className='text-cream-200'>recipes</span> here!
           </Balancer>
         </h1>
-      </div>
+      </section>
 
       <section className='mt-10'>
         <SearchBar onSubmit={(query) => handleSearch(query as string)} />
@@ -82,7 +80,7 @@ const Home = ({ allIngredients }: { allIngredients: AllIngredients }) => {
 };
 
 export async function getStaticProps() {
-  const res = await api.getIngredients<Ingredients>();
+  const res = await api.getIngredients();
   const allIngredients = [...res.data.meals].slice(0, 16).map((ingredient) => ({
     ...ingredient,
     slug: ingredient.strIngredient.toLowerCase().replace(/ /g, '-'),
