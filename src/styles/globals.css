@@ -3,14 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  * { @apply tracking-[0.02em]; }
   *::selection { @apply bg-cream-700 text-cream-100; }
 
-  body { @apply bg-mine-900 }
+  body { @apply bg-mine-900 text-mine-50; }
 
   h1,
   h2,
-  h3 { @apply font-medium text-mine-50 ; }
+  h3 { @apply font-medium; }
 
-  p,
-  li { @apply text-mine-200; }
+  p { @apply text-mine-200; }
+
+  :is(a, button, input):focus {
+    @apply rounded-md outline-none transition-all;
+    @apply ring-1 ring-cream-500 ring-offset-1 ring-offset-transparent;
+  }
 }
