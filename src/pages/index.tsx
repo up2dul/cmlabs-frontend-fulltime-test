@@ -1,11 +1,21 @@
-import { type NextPage } from 'next';
 import Balancer from 'react-wrap-balancer';
 
 import { cn } from '@/lib/utils';
+import api from '@/lib/api';
 import Layout from '@/components/organisms/Layout';
 import SearchBar from '@/components/molecules/SearchBar';
+import Card from '@/components/molecules/Card';
 
-const Home: NextPage = () => (
+type Meals = Array<{
+  idIngredient: string;
+  strIngredient: string;
+}>;
+
+interface Ingredients {
+  meals: Meals;
+}
+
+const Home = ({ allIngredients }: { allIngredients: Meals }) => (
   <Layout>
     <div
       className={cn(
@@ -31,7 +41,29 @@ const Home: NextPage = () => (
     <section className='mt-10'>
       <SearchBar />
     </section>
+
+    <section className='my-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+      {allIngredients.map(({ idIngredient, strIngredient }) => (
+        <Card
+          key={idIngredient}
+          href={`/ingredient/${strIngredient}`}
+          imgSrc={`https://www.themealdb.com/images/ingredients/${strIngredient}.png`}
+          name={strIngredient}
+        />
+      ))}
+    </section>
   </Layout>
 );
+
+export async function getStaticProps() {
+  const res = await api.getIngredients<Ingredients>();
+
+  return {
+    props: {
+      allIngredients: [...res.data.meals].slice(0, 12),
+    }, // will be passed to the page component as props
+    revalidate: 10,
+  };
+}
 
 export default Home;
