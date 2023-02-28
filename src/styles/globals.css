@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  *::selection { @apply bg-cream-700 text-cream-100; }
+
   body { @apply bg-mine-900 }
 
   h1,
   h2,
-  h3 { @apply font-semibold text-mine-50 ; }
+  h3 { @apply font-medium text-mine-50 ; }
 
   p,
-  li,
-  a { @apply text-mine-200; }
+  li { @apply text-mine-200; }
 }
