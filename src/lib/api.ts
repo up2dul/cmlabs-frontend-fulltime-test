@@ -1,6 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 
-import { type Ingredients } from './types';
+import type { Meal, Ingredient } from './types';
 
 const instance = axios.create({
   baseURL: 'https://www.themealdb.com/api/json/v1/1/',
@@ -8,8 +8,11 @@ const instance = axios.create({
 
 function api(axios: AxiosInstance) {
   return {
-    getIngredients: () => {
-      return axios.get<Ingredients>('list.php?i=list');
+    getAllIngredients: () => {
+      return axios.get<{ meals: Ingredient[] }>('list.php?i=list');
+    },
+    getIngredient: (query: string) => {
+      return axios.get<{ meals: Meal[] }>(`filter.php?i=${query}`);
     },
   };
 }
