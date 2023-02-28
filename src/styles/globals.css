@@ -6,6 +6,8 @@
   * { @apply tracking-[0.02em]; }
   *::selection { @apply bg-cream-700 text-cream-100; }
 
+  html { @apply scroll-smooth; }
+
   body { @apply bg-mine-900 text-mine-50; }
 
   h1,
