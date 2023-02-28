@@ -17,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => (
     <main
       className={cn(
         'mx-auto mt-[66px]',
-        'px-8 pt-10 xs:px-12 sm:px-20 md:px-32 lg:px-40 xl:px-56',
+        'px-5 xs:px-12 sm:px-20 md:px-32 lg:px-40 xl:px-56',
       )}
     >
       {children}
