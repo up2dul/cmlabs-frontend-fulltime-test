@@ -4,17 +4,18 @@ import { FiSearch } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 import Button from '@/components/atoms/Button';
 
-const SearchBar = ({
-  onSubmit,
-}: {
-  onSubmit: (inputValue?: string) => void;
-}) => {
+type SearchBarProps = {
+  placeholder: string;
+  onSubmit: (query?: string) => void;
+};
+
+const SearchBar = ({ placeholder, onSubmit }: SearchBarProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const inputValue = inputRef.current?.value;
-    onSubmit(inputValue);
+    const query = inputRef.current?.value;
+    onSubmit(query);
   };
 
   return (
@@ -26,7 +27,7 @@ const SearchBar = ({
         ref={inputRef}
         type='text'
         className={cn(' w-3/4 rounded-l-xl bg-mine-800 px-4 text-mine-50')}
-        placeholder='Search ingredients . . .'
+        placeholder={placeholder}
         maxLength={34}
         autoComplete='off'
       />
