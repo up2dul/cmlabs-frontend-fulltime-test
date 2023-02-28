@@ -1,18 +1,24 @@
 import { type NextPage } from 'next';
-import Head from 'next/head';
+import Balancer from 'react-wrap-balancer';
+
+import { cn } from '@/lib/utils';
+import Layout from '@/components/layout/Layout';
 
 const Home: NextPage = () => (
-  <>
-    <Head>
-      <title>Hello Next.js</title>
-      <meta name='description' content='Hello Next.js' />
-      <link rel='icon' href='/favicon.ico' />
-    </Head>
-
-    <main>
-      <h1 className='text-white'>Hello Next.js</h1>
-    </main>
-  </>
+  <Layout>
+    <h1 className='mb-3 text-center text-xl'>🍱 🍜 🥪</h1>
+    <h1
+      className={cn(
+        'text-center text-3xl',
+        'leading-relaxed underline decoration-cream-200 decoration-wavy underline-offset-8',
+      )}
+    >
+      <Balancer>
+        Get your <span className='text-cream-200'>delicious</span> meal{' '}
+        <span className='text-cream-200'>recipes</span> here!
+      </Balancer>
+    </h1>
+  </Layout>
 );
 
 export default Home;
