@@ -2,7 +2,7 @@ import { type NextPage } from 'next';
 import Balancer from 'react-wrap-balancer';
 
 import { cn } from '@/lib/utils';
-import Layout from '@/components/layout/Layout';
+import Layout from '@/components/organisms/Layout';
 
 const Home: NextPage = () => (
   <Layout>
