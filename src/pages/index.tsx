@@ -1,67 +1,97 @@
+import { useState } from 'react';
 import Balancer from 'react-wrap-balancer';
 
-import { cn } from '@/lib/utils';
 import api from '@/lib/api';
+import { cn } from '@/lib/utils';
+import { type Ingredients } from '@/lib/types';
 import Layout from '@/components/organisms/Layout';
 import SearchBar from '@/components/molecules/SearchBar';
 import Card from '@/components/molecules/Card';
 
-type Meals = Array<{
+type AllIngredients = Array<{
   idIngredient: string;
   strIngredient: string;
+  slug: string;
 }>;
 
-interface Ingredients {
-  meals: Meals;
-}
+const Home = ({ allIngredients }: { allIngredients: AllIngredients }) => {
+  const [ingredients, setIngredients] =
+    useState<AllIngredients>(allIngredients);
+  const ingLength = ingredients.length;
 
-const Home = ({ allIngredients }: { allIngredients: Meals }) => (
-  <Layout>
-    <div
-      className={cn(
-        'border-b-2 border-dashed border-mine-500 sm:border-x-2',
-        'px-3 py-16 sm:rounded-b-3xl',
-      )}
-    >
-      <h1 className='mb-3 text-center text-xl'>🍱 🍜 🥪</h1>
-      <h1
+  const handleSearch = (query: string) => {
+    setIngredients(
+      allIngredients.filter((ing) => {
+        return ing.strIngredient.toLowerCase().includes(query?.toLowerCase());
+      }),
+    );
+  };
+
+  return (
+    <Layout>
+      <div
         className={cn(
-          'text-center text-2xl sm:text-3xl',
-          'leading-relaxed decoration-cream-200 decoration-wavy',
-          'underline underline-offset-2 md:underline-offset-4 lg:underline-offset-8',
+          'border-b-2 border-dashed border-mine-500 sm:border-x-2',
+          'px-3 py-16 sm:rounded-b-3xl',
         )}
       >
-        <Balancer>
-          Get your <span className='text-cream-200'>delicious</span> meal{' '}
-          <span className='text-cream-200'>recipes</span> here!
-        </Balancer>
-      </h1>
-    </div>
+        <h1 className='mb-3 text-center text-xl'>🍱 🍜 🥪</h1>
+        <h1
+          className={cn(
+            'text-center text-2xl sm:text-3xl',
+            'leading-relaxed decoration-cream-200 decoration-wavy',
+            'underline underline-offset-2 md:underline-offset-4 lg:underline-offset-8',
+          )}
+        >
+          <Balancer>
+            Get your <span className='text-cream-200'>delicious</span> meal{' '}
+            <span className='text-cream-200'>recipes</span> here!
+          </Balancer>
+        </h1>
+      </div>
 
-    <section className='mt-10'>
-      <SearchBar />
-    </section>
+      <section className='mt-10'>
+        <SearchBar onSubmit={(query) => handleSearch(query as string)} />
+      </section>
 
-    <section className='my-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-      {allIngredients.map(({ idIngredient, strIngredient }) => (
-        <Card
-          key={idIngredient}
-          href={`/ingredient/${strIngredient}`}
-          imgSrc={`https://www.themealdb.com/images/ingredients/${strIngredient}.png`}
-          name={strIngredient}
-        />
-      ))}
-    </section>
-  </Layout>
-);
+      <p className='mt-10'>
+        {ingLength > 1
+          ? `Showed ${ingLength} ingredients.`
+          : ingLength === 1
+          ? `Showed ${ingLength} ingredient.`
+          : 'No ingredient found.'}
+      </p>
+
+      <section
+        className={cn(
+          'mt-5 mb-10 grid gap-4',
+          'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+        )}
+      >
+        {ingredients.map(({ idIngredient, strIngredient, slug }) => (
+          <Card
+            key={idIngredient}
+            href={`ingredient/${slug}`}
+            imgSrc={`https://www.themealdb.com/images/ingredients/${strIngredient}.png`}
+            name={strIngredient}
+          />
+        ))}
+      </section>
+    </Layout>
+  );
+};
 
 export async function getStaticProps() {
   const res = await api.getIngredients<Ingredients>();
+  const allIngredients = [...res.data.meals].slice(0, 16).map((ingredient) => ({
+    ...ingredient,
+    slug: ingredient.strIngredient.toLowerCase().replace(/ /g, '-'),
+  }));
 
   return {
     props: {
-      allIngredients: [...res.data.meals].slice(0, 12),
-    }, // will be passed to the page component as props
+      allIngredients,
+    },
     revalidate: 10,
   };
 }
