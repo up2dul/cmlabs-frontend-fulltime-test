@@ -14,5 +14,13 @@ const config = {
     locales: ['en'],
     defaultLocale: 'en',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.themealdb.com/**',
+      },
+    ],
+  },
 };
 export default config;
