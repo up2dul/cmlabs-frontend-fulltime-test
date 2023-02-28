@@ -1,16 +1,20 @@
 import { type AppType } from 'next/app';
-import { Inter } from '@next/font/google';
+import { Poppins } from '@next/font/google';
 
 import '@/styles/globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+});
 
 const MyApp: AppType = ({ Component, pageProps }) => (
   <>
     <style jsx global>
       {`
         html {
-          font-family: ${inter.style.fontFamily};
+          font-family: ${poppins.style.fontFamily};
         }
       `}
     </style>
