@@ -68,7 +68,7 @@ const Home = ({ allIngredients }: { allIngredients: AllIngredients[] }) => {
 
 export async function getStaticProps() {
   const res = await api.getAllIngredients();
-  const allIngredients = res.data.meals.slice(0, 16).map((ingredient) => ({
+  const allIngredients = res.map((ingredient) => ({
     ...ingredient,
     slug: textToSlug(ingredient.strIngredient),
   }));

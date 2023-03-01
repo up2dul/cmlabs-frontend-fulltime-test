@@ -61,8 +61,7 @@ const Ingredient = ({
 };
 
 export async function getStaticPaths() {
-  const res = await api.getAllIngredients();
-  const allIngredients = res.data.meals.slice(0, 16);
+  const allIngredients = await api.getAllIngredients();
 
   const paths = allIngredients.map(({ strIngredient }) => ({
     params: { slug: textToSlug(strIngredient) },
@@ -73,8 +72,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   const ingredientName = slugToNormal(params.slug);
-  const res = await api.getIngredient(ingredientName);
-  const ingredient = res.data.meals;
+  const ingredient = await api.getIngredient(ingredientName);
 
   return {
     props: {

@@ -75,8 +75,7 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
 };
 
 export async function getStaticPaths() {
-  const res = await api.getAllMeals();
-  const allMeals = res.data.meals;
+  const allMeals = await api.getAllMeals();
 
   const paths = allMeals.map(({ idMeal }) => ({
     params: { id: idMeal },

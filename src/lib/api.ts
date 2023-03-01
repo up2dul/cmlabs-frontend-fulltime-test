@@ -8,20 +8,30 @@ const instance = axios.create({
 
 function api(axios: AxiosInstance) {
   return {
-    getAllIngredients: () => {
-      return axios.get<{ meals: Ingredient[] }>('list.php?i=list');
+    getAllIngredients: async () => {
+      const { data } = await axios.get<{ meals: Ingredient[] }>(
+        'list.php?i=list',
+      );
+      // only show 16 ingridients
+      return data.meals.slice(0, 16);
     },
-    getIngredient: (query: string) => {
-      return axios.get<{ meals: Meal[] }>(`filter.php?i=${query}`);
+    getIngredient: async (query: string) => {
+      const { data } = await axios.get<{ meals: Meal[] }>(
+        `filter.php?i=${query}`,
+      );
+      return data.meals;
     },
-    getAllMeals: () => {
-      return axios.get<{ meals: MealDetail[] }>('search.php?s=');
+    getAllMeals: async () => {
+      const { data } = await axios.get<{ meals: MealDetail[] }>(
+        'search.php?s=',
+      );
+      return data.meals;
     },
     getMeal: async (id: string) => {
-      const res = await axios.get<{ meals: MealDetail[] }>(
+      const { data } = await axios.get<{ meals: MealDetail[] }>(
         `lookup.php?i=${id}`,
       );
-      return res.data.meals[0];
+      return data.meals[0];
     },
   };
 }
