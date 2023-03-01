@@ -74,7 +74,7 @@ const Ingredient = ({
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const res = await api.getAllIngredients();
-  const allIngredients = res.data.meals;
+  const allIngredients = res.data.meals.slice(0, 16);
 
   // Get the paths we want to pre-render based on posts
   const paths = allIngredients.map(({ strIngredient }) => ({
