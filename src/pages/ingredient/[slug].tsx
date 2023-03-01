@@ -3,6 +3,7 @@ import { cn, slugToNormal, textToSlug } from '@/lib/utils';
 import { type Meal } from '@/lib/types';
 import useSearch from '@/hooks/use-search';
 import Layout from '@/components/organisms/Layout';
+import Hero from '@/components/atoms/Hero';
 import SearchBar from '@/components/molecules/SearchBar';
 import Card from '@/components/molecules/Card';
 
@@ -21,15 +22,10 @@ const Ingredient = ({
 
   return (
     <Layout>
-      <section
-        className={cn(
-          'border-b-2 border-dashed border-mine-500 sm:rounded-b-3xl sm:border-x-2',
-          'px-3 py-16 text-center',
-        )}
-      >
+      <Hero>
         <h1 className='mb-3 text-xl'>🥧 🍜 🥪</h1>
         <h1 className='text-2xl leading-relaxed sm:text-3xl'>{name}</h1>
-      </section>
+      </Hero>
 
       <section className='mt-10'>
         <SearchBar
@@ -47,7 +43,7 @@ const Ingredient = ({
 
       <section
         className={cn(
-          'my-10 grid gap-4',
+          'mt-10 grid gap-4',
           'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
         )}
       >

@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Balancer from 'react-wrap-balancer';
 
 import api from '@/lib/api';
-import { cn } from '@/lib/utils';
 import { type MealDetail } from '@/lib/types';
 import Highlight from '@/components/atoms/Highlight';
 import Layout from '@/components/organisms/Layout';
+import Hero from '@/components/atoms/Hero';
 
 const Meal = ({ meal }: { meal: MealDetail }) => {
   const ingredientWithMeasure = () => {
@@ -27,12 +27,7 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
 
   return (
     <Layout>
-      <section
-        className={cn(
-          'border-b-2 border-dashed border-mine-500 sm:rounded-b-3xl sm:border-x-2',
-          'px-3 py-16 text-center',
-        )}
-      >
+      <Hero>
         <h1 className='mb-3 text-xl'>🥞 🍛 🍕</h1>
         <Image
           src={meal.strMealThumb}
@@ -46,7 +41,7 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
             <Highlight>{meal.strMeal}</Highlight>
           </Balancer>
         </h1>
-      </section>
+      </Hero>
 
       <section className='mt-10'>
         <h1 className='mb-3 text-2xl'>Ingredients</h1>
@@ -64,9 +59,14 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
         <p>{meal.strInstructions}</p>
       </section>
 
-      <section className='my-10'>
+      <section className='mt-10'>
         <h1 className='mb-3 text-2xl'>Tutorial</h1>
-        <a href={meal.strYoutube} target='_blank' rel='noreferrer'>
+        <a
+          href={meal.strYoutube}
+          className='text-link'
+          target='_blank'
+          rel='noreferrer'
+        >
           {meal.strYoutube}
         </a>
       </section>
