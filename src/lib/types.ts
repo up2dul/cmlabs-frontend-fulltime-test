@@ -1,15 +1,15 @@
-export interface Meal {
+export type Meal = {
   strMeal: string;
   strMealThumb: string;
   idMeal: string;
-}
+};
 
-export interface MealDetail extends Meal {
+export type MealDetail = Meal & {
   strCategory: string;
   // ...
-}
+};
 
-export interface Ingredient {
+export type Ingredient = {
   idIngredient: string;
   strIngredient: string;
-}
+};
