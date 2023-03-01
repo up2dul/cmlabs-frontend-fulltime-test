@@ -47,14 +47,14 @@ const Ingredient = ({
 
       <section
         className={cn(
-          'mt-10 mb-10 grid gap-4',
+          'my-10 grid gap-4',
           'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
         )}
       >
         {meals.map(({ idMeal, strMealThumb, strMeal }) => (
           <Card
             key={idMeal}
-            href={`meal/${idMeal}`}
+            href={`/meal/${idMeal}`}
             imgSrc={strMealThumb}
             name={strMeal}
           />
@@ -64,31 +64,22 @@ const Ingredient = ({
   );
 };
 
-// This function gets called at build time
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
   const res = await api.getAllIngredients();
   const allIngredients = res.data.meals.slice(0, 16);
 
-  // Get the paths we want to pre-render based on posts
   const paths = allIngredients.map(({ strIngredient }) => ({
     params: { slug: textToSlug(strIngredient) },
   }));
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
   return { paths, fallback: false };
 }
 
-// This also gets called at build time
 export async function getStaticProps({ params }: { params: { slug: string } }) {
-  // params contains the ingredient `slug`.
-  // If the route is like /ingredient/chicken, then params.slug is chicken
   const ingredientName = slugToNormal(params.slug);
   const res = await api.getIngredient(ingredientName);
   const ingredient = res.data.meals;
 
-  // Pass ingredient data to the page via props
   return {
     props: {
       ingredient,
