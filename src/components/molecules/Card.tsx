@@ -10,7 +10,7 @@ type CardProps = {
 };
 
 const Card = ({ href, imgSrc, name }: CardProps) => (
-  <Link href={`${href}`} title={name} className='block'>
+  <Link href={href} title={name} className='block'>
     <article
       className={cn(
         'rounded-2xl p-4',
@@ -22,9 +22,9 @@ const Card = ({ href, imgSrc, name }: CardProps) => (
         alt={`${name} image`}
         width={140}
         height={140}
-        className='mx-auto'
+        className='mx-auto rounded-2xl'
       />
-      <h1 className='mt-2 truncate text-center text-xl text-mine-900'>
+      <h1 className='mt-2 text-center text-xl text-mine-900 sm:truncate'>
         {name}
       </h1>
     </article>
