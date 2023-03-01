@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.text-link {
+  @apply text-cream-300 transition-colors;
+  @apply hover:text-cream-500 hover:underline;
+}
+
 @layer base {
   * { @apply tracking-[0.02em]; }
   *::selection { @apply bg-cream-700 text-cream-100; }
@@ -10,9 +15,7 @@
 
   body { @apply bg-mine-900 text-mine-50; }
 
-  h1,
-  h2,
-  h3 { @apply font-medium; }
+  h1 { @apply text-2xl font-medium; }
 
   p { @apply text-mine-200; }
 
