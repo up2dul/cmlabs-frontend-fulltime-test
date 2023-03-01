@@ -1,8 +1,7 @@
-import { useState } from 'react';
-
 import api from '@/lib/api';
 import { cn, slugToNormal, textToSlug } from '@/lib/utils';
 import { type Meal } from '@/lib/types';
+import useSearch from '@/hooks/use-search';
 import Layout from '@/components/organisms/Layout';
 import SearchBar from '@/components/molecules/SearchBar';
 import Card from '@/components/molecules/Card';
@@ -14,16 +13,11 @@ const Ingredient = ({
   ingredient: Meal[];
   name: string;
 }) => {
-  const [meals, setMeals] = useState<Meal[]>(ingredient);
-  const mealsLength = meals.length;
-
-  const handleSearch = (query: string) => {
-    setMeals(
-      ingredient.filter(({ strMeal }) => {
-        return strMeal.toLowerCase().includes(query?.toLowerCase());
-      }),
-    );
-  };
+  const { filteredData: meals, handleSearch } = useSearch<Meal>(
+    ingredient,
+    'strMeal',
+  );
+  const mealsLength = meals?.length;
 
   return (
     <Layout>

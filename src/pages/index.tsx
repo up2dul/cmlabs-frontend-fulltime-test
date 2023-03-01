@@ -1,30 +1,24 @@
-import { useState } from 'react';
 import Balancer from 'react-wrap-balancer';
 
 import api from '@/lib/api';
 import { cn, textToSlug } from '@/lib/utils';
 import { type Ingredient } from '@/lib/types';
+import useSearch from '@/hooks/use-search';
 import Layout from '@/components/organisms/Layout';
 import Highlight from '@/components/atoms/Highlight';
 import SearchBar from '@/components/molecules/SearchBar';
 import Card from '@/components/molecules/Card';
 
-interface AllIngredients extends Ingredient {
+type AllIngredients = Ingredient & {
   slug: string;
-}
+};
 
 const Home = ({ allIngredients }: { allIngredients: AllIngredients[] }) => {
-  const [ingredients, setIngredients] =
-    useState<AllIngredients[]>(allIngredients);
+  const { filteredData: ingredients, handleSearch } = useSearch<AllIngredients>(
+    allIngredients,
+    'strIngredient',
+  );
   const ingLength = ingredients.length;
-
-  const handleSearch = (query: string) => {
-    setIngredients(
-      allIngredients.filter(({ strIngredient }) => {
-        return strIngredient.toLowerCase().includes(query?.toLowerCase());
-      }),
-    );
-  };
 
   return (
     <Layout>
