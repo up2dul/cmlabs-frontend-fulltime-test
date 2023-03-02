@@ -1,29 +1,16 @@
+import { type GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Balancer from 'react-wrap-balancer';
 
 import api from '@/lib/api';
+import { mergeIngredientsMeasures } from '@/lib/utils';
 import { type MealDetail } from '@/lib/types';
 import Highlight from '@/components/atoms/Highlight';
 import Layout from '@/components/organisms/Layout';
 import Hero from '@/components/atoms/Hero';
 
 const Meal = ({ meal }: { meal: MealDetail }) => {
-  const ingredientWithMeasure = () => {
-    const ingredients = Object.entries(meal)
-      .filter((ing) => ing[0].includes('strIngredient'))
-      .map((ing) => ing[1])
-      .filter((ing) => ing !== '');
-
-    const measures = Object.entries(meal)
-      .filter((measure) => measure[0].includes('strMeasure'))
-      .map((measure) => measure[1])
-      .filter((measure) => measure !== '');
-
-    return ingredients.map((ingredient, idx) => ({
-      name: ingredient,
-      measure: measures[idx],
-    }));
-  };
+  const ingredientWithMeasure = mergeIngredientsMeasures(meal);
 
   return (
     <Layout>
@@ -46,8 +33,8 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
       <section className='mt-10'>
         <h1 className='mb-3 text-2xl'>Ingredients</h1>
         <ul className='list-disc'>
-          {ingredientWithMeasure().map(({ measure, name }) => (
-            <li key={name}>
+          {ingredientWithMeasure.map(({ key, measure, name }) => (
+            <li key={key}>
               {measure} {name}
             </li>
           ))}
@@ -74,18 +61,9 @@ const Meal = ({ meal }: { meal: MealDetail }) => {
   );
 };
 
-export async function getStaticPaths() {
-  const allMeals = await api.getAllMeals();
-
-  const paths = allMeals.map(({ idMeal }) => ({
-    params: { id: idMeal },
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  const meal = await api.getMeal(params.id);
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const mealId = ctx.params?.id as string;
+  const meal = await api.getMeal(mealId);
 
   return {
     props: {
