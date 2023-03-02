@@ -1,5 +1,4 @@
 import { type FormEvent, useRef } from 'react';
-import { FiSearch } from 'react-icons/fi';
 
 import { cn } from '@/lib/utils';
 import Button from '@/components/atoms/Button';
@@ -31,8 +30,8 @@ const SearchBar = ({ placeholder, onSubmit }: SearchBarProps) => {
         maxLength={34}
         autoComplete='off'
       />
-      <Button type='submit' className='w-1/4 rounded-l-none'>
-        <FiSearch className='mx-auto stroke-[3px]' />
+      <Button type='submit' className='w-1/4 rounded-l-none font-medium'>
+        Go!
       </Button>
     </form>
   );
