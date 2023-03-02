@@ -34,18 +34,20 @@ function slugToNormal(slug: string) {
 
 //#region mergeIngredientsMeasures
 function mergeIngredientsMeasures(data: MealDetail) {
-  const ingredients = Object.entries(data || [])
+  const ingredients = Object.entries(data)
     .filter((ing) => ing[0].includes('strIngredient'))
     .map((ing) => ing[1])
-    .filter((ing) => ing !== '');
+    .filter((ing) => ing !== '')
+    .filter((ing) => ing !== null);
 
-  const measures = Object.entries(data || [])
+  const measures = Object.entries(data)
     .filter((measure) => measure[0].includes('strMeasure'))
     .map((measure) => measure[1])
-    .filter((measure) => measure !== '');
+    .filter((measure) => measure !== '')
+    .filter((measure) => measure !== null);
 
   return ingredients.map((ingredient, idx) => ({
-    key: `${ingredient}-${measures[idx] as string}`,
+    key: textToSlug(`${ingredient} ${measures[idx] as string}`),
     name: ingredient,
     measure: measures[idx],
   }));
